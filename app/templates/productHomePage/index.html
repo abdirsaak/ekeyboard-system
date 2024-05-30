@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-keyboard website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <!-- header -->
+    <header class="flex flex-col md:flex-row items-center  md:items-center md:justify-around   bg-rose-600 h-[120px]  ">
+        <!-- ........... logo -->
+        <div class="">
+            <h1 class="text-white text-[28px] pr-[50px] font-mono py-4 md:py-0 lg:py-0">E-keyboard</h1>
+        </div>
+        <!-- .........search -->
+        <div class="flex flex-row justify-around items-center flex flex-wrap ">
+           
+            <div class="flex flex-row justify-center flex flex-wrap   ">
+                <!-- <h1 class=" border-1 rounded-sm   text-gray-500 bg-white p-[6px] ">Search</h1> -->
+                <input class=" text-[13px] outline-none w-[270px] h-[40px]  rounded-sm p-[6px]" placeholder="Search">
+                <button class=" w-[75px] h-[40px] text-[15px] ml-[10px] bg-black text-white rounded-sm px-[5px]  py-[10px] " >Search</button>
+
+
+            </div>
+
+            <div class=" flex flex-row justify-around text-white ml-[40px] flex flex-wrap  justify-evenly hidden md:block lg:block">
+                <div class=" flex-col">
+                    <h1 class="text-[14px] font-sans font-semibold ">Call Center</h1>
+                    <h2 class="text-[14px] font-semibold">+252 617 61 14 25</h2>
+                </div>      
+
+            </div>
+
+        </div>
+<!-- ............... cardt -->
+        <div class="hidden md:block">
+            <h1>Cart 0</h1>
+        </div>
+    </header>
+    <main>
+        <!-- categories -->
+        <div class="mt-[20px]">
+            <div class="flex justify-between px-4">
+                <!-- .................. category -->
+                <div class="">
+                    <h1 class="category_icon text-[20px] font-semibold ml-[30px] cursor-pointer">
+                        <span class="md:hidden lg:hidden"><i class="fa fa-bars"></i></span> Categories
+                    </h1>
+                </div>
+                <div class="md:hidden lg:hidden">
+                    <h1>Cart 0</h1>
+                </div>
+            </div>
+            <!-- ...................... categories -->
+            <div class="">
+                <div class="categories bg-white shadow-lg w-[400px] md:w-full lg:w-full md:bg-transparent lg:bg-transparent md:shadow-none lg:shadow-none p-2 md:p-0 lg:p-0 ml-16 md:ml-0 lg:ml-0 hidden flex flex-col md:block lg:block md:flex md:flex-row md:items-center md:justify-evenly flex flex-wrap mt-[10px] lg:flex lg:flex-row lg:items-center lg:justify-around">
+                    <h1 class="py-2 text-[18px] font-sans font-semibold text-gray-600 py-[6px]">Standard keyboards</h1>
+                    <h1 class="py-2 text-[18px] font-sans font-semibold text-gray-600 py-[6px]">Gaming keyboards</h1>
+                    <h1 class="py-2 text-[18px] font-sans font-semibold text-gray-600 py-[6px]">Mechanical keyboards</h1>
+                    <h1 class="py-2 text-[18px] font-sans font-semibold text-gray-600 py-[6px]">Wireless Keyboards</h1>
+                    <h1 class="py-2 text-[18px] font-sans font-semibold text-gray-600 py-[6px]">Projection Keyboards</h1>
+                </div>
+            </div>
+        </div>
+        <!-- promo code -->
+        <!-- <div>
+            <img class="mt-[50px] w-full h-[90px] " src="{{ url_for('static', filename='product_image/logo1.jpg') }}" alt="">
+        </div> -->
+
+        <!-- STANDARD KEYBOARD -->
+        <div class="justify-center flex flex-wrap mt-[70px]">
+            <img class="w-auto" src="{{ url_for('static', filename='website_image/poster.jpeg') }}" alt="">
+        </div>
+        
+        <div id="product-container" class="flex flex-wrap justify-center mt-[20px]">
+            <!-- Render all products using Jinja2, with pagination handled by JavaScript -->
+            {% for product in products %}
+            <div class="w-[22%] m-2 p-2 bg-white rounded flex flex-col items-center product-card" data-product-id="{{ product[0] }}" style="display: none;">
+                <img src="{{ url_for('static', filename='product_image/' ~ product[4]) }}" alt="" class="w-[150px] h-[150px] rounded-full">
+                <h1 class="text-[14px] font-sans font-semibold mt-2 w-full">{{ product[1] }}</h1>
+                <p class="text-left w-full">{{ product[5] }}</p>
+                <h2 class="text-red-500 text-[12px] text-left py-2 w-full font-sans font-semibold">{{ product[2] }}</h2>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <div id="pagination-controls" class="flex justify-center mt-[20px]">
+            <button id="prev-page" class="bg-gray-300 px-4 py-2 mx-2 rounded">Previous</button>
+            <button id="next-page" class="bg-gray-300 px-4 py-2 mx-2 rounded">Next</button>
+        </div>
+    </main>
+
+
+    <!--  fooooooooooooooooooooooooooooteeeeeeeeeeeeeeeeer -->
+    <footer>
+        <div class="flex flex-row  items-center justify-evenly flex flex-wrap mt-[40px] px-[15px]">
+            <!-- Assured Purchase -->
+            <div class="md:border-r ">
+                <h1 class="text-[14px]">Assured Purchase</h1>
+                <p class="w-[140px] text-[8px] text-gray-400 font-semibold">Provide genuine service & store
+                    products</p>
+                <h2 class="text-[8px] font-semibold pl-[10px] py-[3px] pt-[4px] text-gray-600">100% genuine products
+                </h2>
+                <h2 class="text-[8px] font-semibold pl-[10px] py-[3px] text-gray-600  ">Deliver items at door</h2>
+                <h2 class="text-[8px] font-semibold pl-[10px] py-[3px] text-gray-600  ">Free to return products</h2>
+            </div>
+
+            <!-- Esay to buy & return -->
+            <div class="md:border-r pr-[16px]">
+                <h1 class="text-[14px]">Esay to buy & return</h1>
+                <p class="w-[120px] text-[8px] text-gray-400 font-semibold">Single click to buy & return
+                    products</p>
+
+
+                <h2 class="text-[8px] font-semibold pl-[10px] py-[3px] pt-[4px] text-gray-600">Same day devilery
+                    available</h2>
+                <h2 class="text-[8px] font-semibold pl-[10px] py-[3px] text-gray-600 "> Click to return products</h2>
+                <h2 class="text-[8px] font-semibold pl-[10px] py-[3px] text-gray-600 ">Quick support links available
+                </h2>
+            </div>
+            <!-- secure payments -->
+            <div class="md:border-r pr-[16px] ">
+                <h1 class="text-[14px]">secure payments</h1>
+                <p class="w-[120px] text-[8px] text-gray-400 font-semibold">Accepts all credit & debit cards</p>
+
+
+                <h2 class="text-[8px] font-semibold pl-[10px] py-[3px] pt-[4px] text-gray-600">100% payment security
+                </h2>
+                <h2 class="text-[8px] font-semibold pl-[10px] py-[3px]   text-gray-600"> Confirmation authentity</h2>
+                <h2 class="text-[8px] font-semibold pl-[10px] py-[3px] text-gray-600 ">delivery items at door</h2>
+            </div>
+            <!--Download center  -->
+            <div>
+                <h1 class="text-[14px]">Download center</h1>
+                <p class="w-[120px] text-[8px] text-gray-400 font-semibold">Use mobile app and get biggest
+                    discounts</p>
+                <h2 class="text-[8px] font-semibold pl-[10px] py-[3px] text-gray-600 ">android</h2>
+                <h2 class="text-[8px] font-semibold pl-[10px] py-[3px] text-gray-600 ">ios</h2>
+
+            </div>
+        </div>
+
+        <!-- ^((%)) -->
+        <div
+            class="flex flex-row  text-center items-center justify-evenly flex flex-wrap mt-[40px] py-[39px] mt-[10px] md:border-t md:border-b  pt-[17px]  pb-[30px]">
+            <!-- About store -->
+            <div>
+                <h1 class="text-[14px]">About store</h1>
+                <p class="w-[170px] text-[10px] text-gray-500">At vero eos et accusamus et iusto
+                    odio dignissimos ducimus, duis
+                    faucibus enim vitae nunc molestie</p>
+            </div>
+            <!-- Extras -->
+            <div class="">
+                <h1>Extras</h1>
+                <h2 class="text-[10px] text-gray-500">Brands</h2>
+                <h2 class="text-[10px] text-gray-500">Gift Certificates</h2>
+                <h2 class="text-[10px] text-gray-500">Affiliates</h2>
+                <h2 class="text-[10px] text-gray-500"> Contact Us</h2>
+                <h2 class="text-[10px] text-gray-500">Specials</h2>
+
+            </div>
+            <!-- My Account  -->
+            <div>
+                <h1> My Account</h1>
+                <h2 class="text-[10px] text-gray-500"> Order History</h2>
+                <h2 class="text-[10px] text-gray-500"> Wish List </h2>
+                <h2 class="text-[10px] text-gray-500"> Newsletter</h2>
+                <h2 class="text-[10px] text-gray-500"> Returns</h2>
+            </div>
+
+
+
+
+            <!-- store information -->
+            <div>
+                <h1>store information</h1>
+                <h2 class="text-[10px] text-gray-500">My Company, 42 Puffin street 12345 Puffinville France</h2>
+                <h2 class="text-[10px] text-gray-500 ">0123-456-789</h2>
+                <h2 class="text-[10px] text-gray-500">sales@yourcompany.com</h2>
+            </div>
+        </div>
+        <!-- Payment Accepted by Store -->
+        <div class="text-center mt-[20px]">
+            <h1>Payment Accepted by Store</h1>
+        </div>
+
+
+        <!--appp  -->
+        <div class="flex flex-row items justify-around flex flex-wrap bg-rose-600 h-[55px] items-center mt-[20px]">
+            <div>
+                <h1 class="text-white text-[14px]">powered by opencart demo store @ 2024</h1>
+            </div>
+            <div class="flex flex-row px-[10px]">
+                <img class="w-[23px] bg-rose-700 h-[23px] p-[5px] rounded-full  " src="images/cover_9.png" alt="">
+                <img class="w-[23px] bg-rose-700 h-[23px] p-[5px] rounded-full " src="images/msajid_2.png" alt="">
+                <img class="w-[29px] bg-rose-700 h-[27px] p-[5px] rounded-full "
+                    src="images/images-removebg-preview.png " alt="">
+            </div>
+
+        </div>
+    </footer>
+</body>
+
+
+
+</script>
+
+<script src="{{ url_for('static', filename='/js/categories.js') }}"></script>
+<script src="{{ url_for('static', filename='/js/product_view.js') }}"></script>
+    
+
+</html>

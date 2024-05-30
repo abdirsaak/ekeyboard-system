@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+  <!-- .............. header -->
+  <header >
+    <div class="flex justify-between items-center md:hidden lg:hidden  justify-between px-10 mx-auto bg-[#0A1551] text-white h-[40px]">
+        <h1>E-keyboard</h1>
+        <h1 class="btn_click"><span><i class="fa fa-bars"></i></span></h1>
+    </div>
+    <!-- .............. main div -->
+    <div class="hidden  md:block lg:block bg-[#0A1551] w-full text-white  md:flex md:justify-around md:h-[50px] md:items-center lg:flex lg:justify-around lg:h-[50px] lg:items-center  " id="navBar">
+
+        <div>
+         <nav>
+             <ul class="flex flex-col md:flex md:flex-row lg:flex lg:flex-row pl-[20px]">
+               
+                 <li class="px-4 py-2"><a href="{{url_for("main_page")}}">Home</a></li>
+                 <li class="px-4 py-2"><a href="{{url_for("create_product")}}">Create prodcut</a></li>
+                 <li class="px-4 py-2"><a href="{{url_for("view_products")}}">view prodcut</a></li>
+                 <li class="px-4 py-2"><a href="{{url_for("Orders")}}"></a></li>
+                 <li class="px-4 py-2"><a href="{{url_for("create_category")}}">Category</a></li>
+                
+             </ul>
+         </nav>
+        </div>
+
+       
+    </div>
+  
+ 
+    </header>
+           
+
+    <div class="">
+          <!-- ........... message flash -->
+          {% with messages = get_flashed_messages() %} {% if messages %}
+          <div id="flash-message" class="flex justify-center items-center w-[270px] h-[50px] bg-red-500 text-white rounded-md">
+  
+            <ul>
+              {% for message in messages %}
+              <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %} {% endwith %}
+    </div>
+
+      <main>
+        <div class="max-w-4xl mx-auto relative">
+            <div class="mt-5 mb-4">
+                <h1 class="font-bold text-gray-800 mt-[50px]">View Products</h1>
+            </div>
+            <div class="bg-white rounded-lg p-4 mt-5">
+                <table class="text-left mt-[30px]">
+                    <thead>
+                        <tr>
+                            <th class="p-2">Id</th>
+                            <th class="p-2">Name</th>
+                            <th class="p-2">Price</th>
+                            <th class="p-2">Img-1</th>
+                            <th class="p-2">Img-2</th>
+                            <th class="p-2">Description-1</th>
+                            <th class="p-2">Description-2</th>
+                            <th class="p-2">Category Name</th>
+                            <th class="p-2">QTY</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                        <tr>
+                            <td class="p-2">{{ product[0] }}</td>
+                            <td class="p-2">{{ product[1] }}</td>
+                            <td class="p-2">${{ product[2] }}</td>
+                            <td class="p-2">
+                                <img src="{{ url_for('static', filename='product_image/' + product[3]) }}" alt="Product Image 1" class="w-12 h-12 rounded-full">
+                            </td>
+                            <td class="p-2">
+                                <img src="{{ url_for('static', filename='product_image/' + product[4]) }}" alt="Product Image 2" class="w-12 h-12 rounded-full">
+                            </td>
+                            <td class="p-2">{{ product[5] }}</td>
+                            <td class="p-2">{{ product[6] }}</td>
+                            <td class="p-2">{{ product[7] }}</td>
+                            <td class="p-2">{{ product[8] }}</td>
+                            <td class="p-2 flex gap-x-4">
+                                <span class="update_product_btn">
+                                    <button type="button" onclick='showUpdateModal({{ product | tojson }})' class="bg-blue-500 text-white px-2 py-1 rounded"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                </span>
+                                <span>
+                                    <form action="{{ url_for('delete_product') }}" method="post" class="inline">
+                                        <input type="hidden" name="product_id" value="{{ product[0] }}">
+                                        <button class="bg-red-500 text-white px-2 py-1 rounded" type="submit" class="px-2 cursor-pointer text-red-500"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </form>
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Update Modal -->
+    <div id="updateModal" class=" absolute top-10 left-20 md:top-20 md:left-48 opacity-99 bg-white w-[400px] md:w-[660px] shadow-lg  flex justify-center items-center hidden mb-10">
+        <div class="">
+            <form action="{{ url_for('update_product') }}" method="post" enctype="multipart/form-data">
+                <div class="flex justify-end p-4 close_btn cursor-pointer font-bold">X</div>
+                <div class="flex flex-col items-center">
+                    <h1 class="text-[#0A1551] font-bold pb-6">Update Product</h1>
+                    <input type="hidden" name="product_id" id="updateProductId">
+                    <div class="products md:flex gap-x-4">
+                        <div class="productName">
+                            <h2>Product Name</h2>
+                            <input name="product_name" id="updateProductName" class="border-2 border-gray-200 outline-none w-[300px] h-[40px] my-2" type="text">
+                        </div>
+                        <div class="productPrice">
+                            <h2>Product Price</h2>
+                            <input name="product_price" id="updateProductPrice" class="border-2 border-gray-200 outline-none w-[300px] h-[40px] my-2" type="text">
+                        </div>
+                    </div>
+                    <div class="productDescription md:flex gap-x-4">
+                        <div class="description_1">
+                            <h2>Description 1</h2>
+                            <textarea name="product_description_1" id="updateProductDescription1" class="border-2 border-gray-200 outline-none w-[300px] h-[100px] my-2"></textarea>
+                        </div>
+                        <div class="description_1">
+                            <h2>Description 2</h2>
+                            <textarea name="product_description_2" id="updateProductDescription2" class="border-2 border-gray-200 outline-none w-[300px] h-[100px] my-2"></textarea>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex md:flex-row gap-x-4">
+                        <div class="product_category">
+                            <h2>Product Category</h2>
+                            <input name="product_category" id="updateProductCategory" class="border-2 border-gray-200 outline-none w-[300px] h-[40px] my-2 md:w-[300px]" type="text">
+                        </div>
+                        <div class="product_inventory">
+                            <h2>Inventory Quantity</h2>
+                            <input name="product_inventory" id="updateProductInventory" class="border-2 border-gray-200 outline-none w-[300px] h-[40px] my-2 md:w-[300px]" type="text">
+                        </div>
+                    </div>
+                    <div class="productImages flex flex-col md:flex-row justify-center gap-x-10 my-10 w-[600px] md:justify-between">
+                        <div class="image_1">
+                            <div class="flex flex-col items-center ">
+                                <h2 class="py-4">Image 1</h2>
+                                <input type="file" name="product_image_1" id="updateProductImage1" onchange="previewFile(this)" multiple>
+                            </div>
+                            <div class="flex justify-center items-center">
+                                <img class="bg-gray-300 w-[150px] h-[150px] rounded-full md:w-[200px] md:h-[200px] md:rounded-full" src="" id="preview1">
+                            </div>
+                        </div>
+                        <div class="image_2">
+                            <div class="flex flex-col items-center ">
+                                <h2 class="py-4">Image 2</h2>
+                                <input type="file" name="product_image_2" id="updateProductImage2" onchange="previewFile_image(this)" multiple>
+                            </div>
+                            <div class="flex justify-center items-center">
+                                <img class="bg-gray-300 w-[150px] h-[150px] rounded-full md:w-[200px] md:h-[200px] md:rounded-full" src="" id="preview2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-10">
+                        <button class="bg-[#0A1551] text-white w-[300px] h-[60px] rounded-md shadow-md md:w-[600px]" type="submit">Update Product</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    
+        <script src="{{ url_for('static', filename='/js/product.js') }}"></script>
+    
+</body>
+</html>

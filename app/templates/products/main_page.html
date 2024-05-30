@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-web</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+
+<body>
+
+    <main class="max-w-5xl mx-auto bg-blue-950 h-[100vh]">
+        <!-- logout -->
+        <div class="space-x-12     flex flex-row justify-center md:justify-end lg:justify-end pt-[20px] px-4">
+            <a class="text-white text-[14px]" href="#">{{ get_admin_name[0][0] }}</a>
+            <a class="text-white text-[14px]" href="{{url_for("admin_logout")}}">Logout</a>
+            <a class="text-white text-[14px]" href="#">My prfile <i class="fa fa-caret-up"> </i></a>
+            </span>
+
+            </div>
+            
+
+    <!-- boxss -->
+           <div class="flex flex-row justify-center  flex flex-wrap mt-[80px] py-3  gap-y-20">
+     <!--box 1  -->
+            <div class="flex-col px-[30px]">
+                <div class="bg-blue-500 w-[180px] h-[150px] items-center rounded-md">
+               <a href="{{url_for("Admin_dashboard")}}"> <img class="w-[148px] h-[148px]   rounded-md p-6   ml-[10px] rounded-md" src="{{ url_for('static', filename='main_page_images/dashboard.jpg') }}" alt=""></a>
+                </div>
+                <h1 class="text-white text-center text-[14px] text-gray-400 mt-[10px]">Dashboard</h1>
+            </div>
+     <!--box 2  -->
+            <div class="flex-col px-[30px]">
+                <div class="bg-green-500 w-[180px] h-[150px]  rounded-md">
+              <a href="{{url_for("create_product")}}">
+                <img class="w-[148px] h-[148px] rounded-md p-6   ml-[10px]  " src="{{ url_for('static', filename='main_page_images/product.jpg') }}" alt="">
+              </a>
+                <h1 class="text-white text-center text-[14px]  mt-[10px]">Products</h1>
+                </div>
+            </div>
+        <!-- box 3 -->
+        <div class="flex-col px-[30px]">
+                <div class="bg-purple-700 w-[180px] h-[150px] items-center rounded-md">
+              <a href="{{url_for("Orders")}}">
+                <img class="w-[148px] h-[148px] rounded-md p-6   ml-[10px]"  src="{{ url_for('static', filename='main_page_images/order.jpg') }}">
+              </a>
+              </div>
+              <h1 class="text-white text-center text-[14px] text-gray-500 mt-[10px]">Orders</h1>
+        </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+      
+    <header class="bg-[#0A1551] text-white flex justify-around h-[50px] items-center mx-4 rounded-md">
+        <div>
+         <nav>
+             <ul class="flex">
+                 <li class="px-4"><a href="/E-keyboard/admin/login/Dashboard">Dashboard</a></li>
+                 <li class="px-4"><a href="/E-keyboard/admin/login/create-product">Create prodcut</a></li>
+                 <li class="px-4"><a href="/E-keyboard/admin/login/view-products">view prodcut</a></li>
+                 <li class="px-4"><a href="/E-keyboard/admin/login/Orders">Orders</a></li>
+             </ul>
+         </nav>
+        </div>
+         <!-- ... button profile -->
+     
+         <div>
+            <nav>
+               <ul class="flex">
+                   <li><a href="{{url_for("admin_profile")}}">Profile</a></li>
+               </ul>
+            </nav>
+    </div>
+        </header>
+    
+
+    <!-- ............... profile -->
+
+    <div class="flex flex-col items-center my-10">
+        <!-- .......... admin profile and logout -->
+        <div class="md:flex md:w-[500px] md:justify-around">
+            <!-- ........... admin Profile -->
+                <div class="">
+                    <h2>Admin Profile</h2>
+                </div>
+                <div class="hidden md:block">
+                    <button class="bg-[#0A1551] w-[180px] h-[50px] text-white rounded-e-md shadow-md">Log out</button>
+                </div>
+        </div>
+
+            <!-- //////////// -->
+            <div class="md:flex md:flex-col md:items-start  md:w-[450px]">
+                
+        <!-- .......................profile_circle -->
+        <div class="profile_circle my-6">
+            <h2 class="bg-gray-300 w-[250px] h-[250px] rounded-full "></h2>
+        </div>
+
+        <!-- .......... admin info -->
+        <div class="ml-10">
+            <h2>Abdirsa Ali Osman</h2>
+            <h2 class="py-2">Rasaaq883@gmail.com</h2>
+        </div>
+
+        <!-- .........button logout -->
+        <div class="mt-[20px] md:hidden lg:hidden">
+
+            <button class="bg-[#0A1551] w-[300px] h-[50px] text-white rounded-e-md shadow-md">Logout</button>
+        </div>
+            </div>
+
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="{{ url_for('static', filename='/js/prodcut.js') }}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="">
+      <!-- .............. header -->
+      <header >
+        <div class="flex justify-between items-center md:hidden lg:hidden  justify-between px-10 mx-auto bg-[#0A1551] text-white h-[40px]">
+            <h1>E-keyboard</h1>
+            <h1 class="btn_click"><span><i class="fa fa-bars"></i></span></h1>
+        </div>
+        <!-- .............. main div -->
+        <div class="hidden  md:block lg:block bg-[#0A1551] text-white  md:flex md:justify-around md:h-[50px] md:items-center lg:flex lg:justify-around lg:h-[50px] lg:items-center  " id="navBar">
+
+            <div>
+             <nav>
+                 <ul class="flex flex-col md:flex md:flex-row lg:flex lg:flex-row pl-[20px]">
+                   
+                     <li class="px-4 py-2"><a href="{{url_for("main_page")}}">Home</a></li>
+                     <li class="px-4 py-2"><a href="{{url_for("create_product")}}">Create prodcut</a></li>
+                     <li class="px-4 py-2"><a href="{{url_for("view_products")}}">view prodcut</a></li>
+                     <li class="px-4 py-2"><a href="{{url_for("Orders")}}"></a></li>
+                     <li class="px-4 py-2"><a href="{{url_for("create_category")}}">Category</a></li>
+                    
+                 </ul>
+             </nav>
+            </div>
+
+           
+        </div>
+      
+     
+        </header>
+
+
+
+    <!-- ................. create producr -->
+
+    <form action="{{url_for("create_product")}}" method="post" enctype="multipart/form-data">
+
+        <div class="flex flex-col items-center">
+            <h1 class="text-[#0A1551] font-bold py-10">Create Product</h1>
+            <!-- ........... message flash -->
+            {% with messages = get_flashed_messages() %} {% if messages %}
+            <div id="flash-message" class="flex justify-center items-center w-[200px] h-[50px] bg-red-500 text-white rounded-md">
+    
+              <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %} {% endwith %}
+            <!-- .... product name and product price -->
+                <div class="products md:flex gap-x-4">
+                            <div class="productName">
+                                <h2>Prodcut Name</h2>
+                                <input name="product_name" class="border-2 border-gray-200 outline-none w-[300px] h-[40px] my-2" type="text" name="" id="">
+                            </div>
+                            <div class="productPrice">
+                                <h2>Produc Price</h2>
+                                <input name="product_price"  class="border-2 border-gray-200 outline-none w-[300px] h-[40px] my-2"  type="text">
+                            </div>
+                </div>
+    
+                <!-- ..... product descripton -->
+                <div class="productDescription md:flex gap-x-4">
+                        <div class="description_1">
+                            <h2>Description 1</h2>
+                            <textarea name="product_description_1"   class="border-2 border-gray-200 outline-none w-[300px] h-[100px] my-2" id=""></textarea>
+                        </div>
+                        <div class="description_1">
+                            <h2>Description 2</h2>
+                            <textarea  class="border-2 border-gray-200 outline-none w-[300px] h-[100px] my-2" name="product_description_2" id=""></textarea>
+                        </div>
+                </div>
+    
+                <!-- ......... product category -->
+                <div class="flex flex-col md:flex md:flex-row gap-x-4">
+                    <!-- ........ catehory -->
+                    <div class="porduct_category">
+                        <h2>Prodcut Category</h2>
+                        <select name="product_category"   class="border-2 border-gray-200 outline-none w-[300px] h-[40px] my-2 md:w-[300px]" >
+                            {% for category in display_categro %}
+                            <option  value="{{category[1]}}">{{category[1]}}</option>
+                        
+                            {% endfor %}
+                        </select>
+                      
+                    </div>
+                    <!-- ...inventory_quantity -->
+                    <div class="porduct_category">
+                        <h2>inventory Quantity</h2>
+                        <input name="product_inventory" class="border-2 border-gray-200 outline-none w-[300px] h-[40px] my-2 md:w-[300px]" type="text">
+                    </div>
+    
+                </div>
+                
+                <!-- ......... product images -->
+    
+                <div class="productImages flex flex-col md:flex-row justify-center gap-x-10 my-10 w-[600px] md:justify-between">
+                        <div class="image_1">
+                               <div class="flex flex-col items-center ">
+                                <h2 class=" py-4">Image 1</h2>
+                                <input type="file" name="product_image_1" onchange="previewFile(this)" multiple><br>
+                               </div>
+                             <div class="flex  justify-center items-center">
+                                <img class="bg-gray-300 w-[150px] h-[150px] rounded-full md:w-[200px] md:h-[200px] md:rounded-full" src="" id="preview" >
+                             </div>
+                        </div>
+                        <!-- image 2 -->
+                        <div class="image_1">
+                            <div class="flex flex-col items-center ">
+                             <h2 class=" py-4">Image 2</h2>
+                             <input  type="file" name="product_image_2" onchange="previewFile_image(this)" multiple><br>
+                            </div>
+                          <div class="flex  justify-center items-center">
+                             <img class="bg-gray-300 w-[150px] h-[150px] rounded-full md:w-[200px] md:h-[200px] md:rounded-full" src="" id="preview_image_2" >
+                          </div>
+                     </div>
+                      
+                </div>
+    
+                <!-- .... create button -->
+    
+                <div class="my-10">
+                    <button class="bg-[#0A1551] text-white w-[300px] h-[60px] rounded-md shadow-md md:w-[600px]" type="submit">Create Product</button>
+                </div>
+    
+        </div>
+
+    </form>
+
+
+
+    
+    
+
+
+
+    <script src="{{ url_for('static', filename='/js/product.js') }}"></script>
+    <script src="{{ url_for('static', filename='/js/product_img.js') }}"></script>
+
+</body>
+</html>

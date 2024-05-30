@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+    <!-- loooooooooooooooooooooogin -->
+
+
+
+
+    <form action="{{url_for('admin_login')}}" method="post">
+        
+        <div class="flex flex-col items-center h-[100vh]    mt-[40px]">
+            <h1 class="font-bold text-[27px] text-center font-mono ">Admin Login ln</h1>
+            <!-- .............flash -->
+             <!-- .............flash -->
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <div id="flash-message" class="flex justify-center items-center w-[200px] h-[50px] bg-red-500 text-white rounded-md">
+
+          <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %} {% endwith %}
+    <!-- email -->
+            <div class="flex flex-col  justify-center  items-center text-center    mt-[10px] ">
+                <h2 class="font-sans text-[13px] mr-[190px] mt-[10px] font-semibold">E-mail</h2>             
+                <input name="email"  class=" border-2  w-[250px]  h-[35px] mt-[7px] rounded-md " type="text" name="" id="">
+            </div>
+
+    <!-- password -->
+    <div class="flex flex-col  justify-center  items-center text-center  mt-[10px] ">
+        <h2 class="font-sans text-[13px] mr-[180px] mt-[10px] font-semibold ">Password</h2>             
+        <div >   
+          <input  name="password" class=" border-2  w-[250px]  h-[35px] mt-[7px] rounded-md " type="text" name="" id="">     
+        </div>
+        <div class="mt-[10px]">
+            <!-- <div class="flex flex-row"><h1 class="font-sans text-[14px]">Don't Have an account?</h1>
+                <a href="{{url_for('user_register')}}" class="font-sans text-red-500 text-[14px]">Sign Up</a>
+            
+            </div> -->
+            
+            <button class="bg-blue-950 w-[170px] h-[45px] rounded-md text-white mt-[50px]" type="submit">Submit</button>
+        </div>
+        </div>
+
+
+
+
+    </form>
+
+
+
+
+
+
+
+
+    <!-- ...........js  -->
+    <script src="{{ url_for('static', filename='js/register.js') }}"></script>
+
+</body>
+</html>

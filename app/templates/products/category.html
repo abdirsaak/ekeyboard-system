@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body class="remove_card">
+    
+      <!-- .............. header -->
+      <header >
+        <div class="flex justify-between items-center md:hidden lg:hidden  justify-between px-10 mx-auto bg-[#0A1551] text-white h-[40px]">
+            <h1>E-keyboard</h1>
+            <h1 class="btn_click"><span><i class="fa fa-bars"></i></span></h1>
+        </div>
+        <!-- .............. main div -->
+        <div class="hidden  md:block lg:block bg-[#0A1551] text-white  md:flex md:justify-around md:h-[50px] md:items-center lg:flex lg:justify-around lg:h-[50px] lg:items-center  " id="navBar">
+
+            <div>
+             <nav>
+                 <ul class="flex flex-col md:flex md:flex-row lg:flex lg:flex-row pl-[20px]">
+                   
+                     <li class="px-4 py-2"><a href="{{url_for("main_page")}}">Home</a></li>
+                     <li class="px-4 py-2"><a href="{{url_for("create_product")}}">Create prodcut</a></li>
+                     <li class="px-4 py-2"><a href="{{url_for("view_products")}}">view prodcut</a></li>
+                     <li class="px-4 py-2"><a href="{{url_for("Orders")}}"></a></li>
+                     <li class="px-4 py-2"><a href="{{url_for("create_category")}}">Category</a></li>
+                    
+                 </ul>
+             </nav>
+            </div>
+
+           
+        </div>
+      
+     
+        </header>
+
+
+     <section class="flex justify-center ">
+
+         <div class="flex  ">
+             <form action="{{url_for("create_category")}}" method="post">
+                 <div class="flex flex-col items-center">
+                     <h1 class="text-[#0A1551] font-bold py-10">Create Product</h1>
+                     <!-- ........... message flash -->
+                     {% with messages = get_flashed_messages() %} {% if messages %}
+                     <div id="flash-message" class="flex justify-center items-center w-[270px] h-[50px] bg-red-500 text-white rounded-md">
+             
+                       <ul>
+                         {% for message in messages %}
+                         <li>{{ message }}</li>
+                         {% endfor %}
+                       </ul>
+                     </div>
+                     {% endif %} {% endwith %}
+                 <div class="productName">
+                     <h2>Category Name</h2>
+                     <input name="category_name" class="border-2 border-gray-200 outline-none w-[300px] h-[40px] my-2" type="text" name="" id="">
+                 </div>
+         
+                 <button class="bg-[#0A1551] text-white w-[200px] h-[40px] rounded-md shadow-md md:w-[300px] mt-10" >Save</button>
+             </form>
+         </div>
+
+     </section>
+
+
+
+     <section class="mt-10 flex justify-center">
+        <!-- .............. display categories -->
+        <div class="w-auto">
+            <table class="w-auto mx-auto">
+                <thead>
+                    <tr>
+                        <th class="px-8">category-id</th>
+                        <th class="px-8">category-name</th>
+                        <th class="px-8">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in get_category %}
+                    <tr>
+                        <td class="px-8">{{ category[0] }}</td>
+                        <td class="px-8">{{ category[1] }}</td>
+                        <td class="px-8 flex">
+                            <span class="px-2 update_btn cursor-pointer" data-id="{{ category[0] }}" data-name="{{ category[1] }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+                            <!-- <span  class="px-2"><i class="fa fa-trash-o" aria-hidden="true"></i></span> -->
+                            <form action="{{ url_for('delete_category') }}" method="post" class="inline">
+                                <input type="hidden" name="category_id" value="{{ category[0] }}">
+                                <button type="submit" class="px-2 cursor-pointer text-red-500"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+ <!-- Update Section Outside the Loop -->
+ <section id="updateSection" class="update_data flex justify-center bg-white shadow-lg h-[30vh] relative bottom-[300px] w-[280px] mx-auto rounded-md hidden">
+    <form action="{{url_for('update_category')}}" method="post">
+        <div class="flex flex-col items-center pt-2">
+          
+            <div class="productName">
+                <input type="hidden" name="category_id" id="update-category-id">
+                <h2>Category Name</h2>
+                <input name="category_name" class="border-2 border-gray-200 outline-none w-[200px] h-[40px] my-2" type="text" id="update-category-name">
+            </div>
+            <button class="bg-[#0A1551] text-white w-[200px] h-[40px] rounded-md shadow-md md:w-[200px] mt-2">Update</button>
+        </div>
+    </form>
+</section>
+
+
+
+<script src="{{ url_for('static', filename='/js/product.js') }}"></script>
+</body>
+</html>

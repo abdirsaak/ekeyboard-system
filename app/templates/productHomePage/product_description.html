@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product[1] }} - E-keyboard website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <header class="flex items-center justify-between bg-rose-600 h-[60px] p-4">
+        <h1 class="text-white text-[28px] font-mono">
+            <a href="/">E-keyboard</a>
+        </h1>
+        <nav>
+            <a href="/" class="text-white">Home</a>
+        </nav>
+    </header>
+
+    <main class="p-4">
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <div id="flash-message-2" class="flex justify-center items-center
+         h-[50px] bg-red-500 text-white rounded-md">
+
+          <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %} {% endwith %}
+
+        <div class="max-w-3xl mx-auto bg-white h-[100vh] md:h-[100vh] rounded-lg shadow-md">
+            <!-- Product details -->
+            <div class="pl-6 md:flex md:flex-row md:items-center">
+                <div>
+                    <img src="/static/product_image/{{ product[3] }}" alt="{{ product[1] }}" class="w-[400px] h-[300px] rounded md:w-[300px] md:h-[300px] md:mt-10">
+                </div>
+                <div class="md:pl-20">
+                    <h1 class="text-2xl font-bold mt-4">{{ product[1] }}</h1>
+                    <p class="mt-4">{{ product[5] }}</p>
+                    <p>{{ product[6] }}</p>
+                </div>
+                <p class="text-xl text-red-500 mt-2">{{ product[2] }}</p>
+            </div>
+
+            <!-- Success message -->
+            {% if success_message %}
+                <div class="bg-green-200 text-green-800 p-4 rounded mt-4">
+                    {{ success_message }}
+                </div>
+            {% endif %}
+
+            <!-- Quantity controls -->
+            <form id="cart-form" action="{{ url_for('product_detail', product_id=product_id) }}"  method="post">
+                <div class="md:flex md:flex-col md:items-center md:mt-20">
+                    <div class="bg-gray-100 text-white flex justify-around items-center h-[50px] w-[450px] ml-6 mt-8 md:mt-0">
+                        <button type="button" id="decrease-quantity" class="text-rose-600 text-[50px] font-bold">-</button>
+                        <input type="text" id="quantity" name="quantity" class="text-black" value="0" readonly>
+                        <button type="button" id="increase-quantity" class="text-rose-600 text-[40px] font-bold">+</button>
+                    </div>
+                    <div>
+                        <input class="hidden" type="text" name="product_id" id="product_id" value="{{ product[0] }}">
+                        <input class="hidden" type="text" name="quantity" id="quantity-input" value="0">
+                        <button class="bg-rose-600 text-white px-4 py-2 h-[60px] w-[450px] rounded-lg mt-4 ml-6" type="submit">Add to cart</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+   
+
+
+
+<script src="{{ url_for('static', filename='/js/product_descript.js') }}"></script>
+<script src="{{ url_for('static', filename='/js/product.js') }}"></script>
+</body>
+
+</html>

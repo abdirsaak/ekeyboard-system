@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <!-- regisratttttttttttttttion -->
+  <body>
+    <form action="{{url_for('user_register')}}" method="post" class="">
+      <div class="flex flex-col items-center mt-[25px]">
+        <h1 class="font-bold text-[28px] font-sans mr-[50px] my-10">
+          Registration Form
+        </h1>
+        <!-- .............flash -->
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <div id="flash-message" class="flex justify-center items-center w-[200px] h-[50px] bg-red-500 text-white rounded-md">
+
+          <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %} {% endwith %}
+        <!-- ........ full name -->
+        <div class="flex flex-col md:flex md:flex-row gap-x-10 my-2">
+          <!-- ...firs name -->
+          <div class="flex flex-col">
+            <h1>First Name</h1>
+            <input
+              name="first_name"
+              class="border-2 w-[270px] md:w-[350px] h-[35px] mt-[6px] rounded-md"
+              type="text"
+            />
+          </div>
+          <!-- ..second name -->
+          <div class="second_name">
+            <h1>Second Name</h1>
+            <input
+              name="second_name"
+              class="border-2 w-[270px] md:w-[350px] h-[35px] mt-[6px] rounded-md"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <!-- ........ phone and address -->
+        <div class="flex flex-col md:flex md:flex-row gap-x-10 my-2">
+          <!-- ...firs name -->
+          <div class="flex flex-col">
+            <h1>Address</h1>
+            <input
+              name="address"
+              class="border-2 w-[270px] md:w-[350px] h-[35px] mt-[6px] rounded-md"
+              type="text"
+            />
+          </div>
+          <!-- ..second name -->
+          <div class="second_name">
+            <h1>Phone</h1>
+            <input
+              name="phone"
+              class="border-2 w-[270px] md:w-[350px] h-[35px] mt-[6px] rounded-md"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <!-- ///email -->
+        <div class="email my-2">
+          <h1>Email</h1>
+          <input
+            name="email"
+            class="border-2 w-[270px] md:w-[740px] h-[35px] mt-[6px] rounded-md"
+            type="text"
+          />
+        </div>
+        <div class="email my-2">
+          <h1>Password</h1>
+          <input
+            name="password"
+            class="border-2 w-[270px] md:w-[740px] h-[35px] mt-[6px] rounded-md"
+            type="text"
+          />
+        </div>
+
+        <div class="text-center">
+          <button
+            type="submit"
+            class="bg-blue-950 w-[170px] h-[45px] rounded-md text-white mt-[50px]"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+
+      <!-- submit -->
+    </form>
+
+
+
+
+
+    <!-- ...........js  -->
+    <script src="{{ url_for('static', filename='register.js') }}"></script>
+
+  </body>
+</html>
