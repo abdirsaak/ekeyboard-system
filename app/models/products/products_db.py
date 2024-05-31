@@ -149,6 +149,17 @@ class Products:
         except Exception as e:
             print(f"error ayaa jiro, in la soo xa: {e}")
             return False, f"error: {e}"
+    # ... display products carts table the with the user_id
+    def display_product_cart(self,user_id):
+        sql = "SELECT * FROM product_carts WHERE user_id = %s"
+        try:
+            self.cursor.execute(sql, (user_id,))
+            product_cart = self.cursor.fetchall()
+            print(f"product_cart: {product_cart}")
+            return product_cart
+        except Exception as e:
+            print(f"error ayaa jiro, in la soo xa: {e}")
+            return False, f"error: {e}"
 
 
 

@@ -182,7 +182,8 @@ def home_page():
         #         "description_2": product[6],
         #         "category_name": product[7]
         #     })
-            
+        product_carts = products_instance.display_product_cart(user_id)
+        print(f"products carts view: {product_carts}")
 
         return render_template("productHomePage/index.html", products = products)
     else:
@@ -214,8 +215,7 @@ def product_detail(product_id):
         quantity = request.form.get('quantity')
         user_id = session.get("user_id")
 
-        # Initialize success message
-        success_message = ""
+       
 
         try:
             # Check if product_id is valid before attempting to add to cart
