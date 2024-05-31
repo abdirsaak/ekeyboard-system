@@ -185,7 +185,7 @@ def home_page():
         product_carts = products_instance.display_product_cart(user_id)
         print(f"products carts view: {product_carts}")
 
-        return render_template("productHomePage/index.html", products = products)
+        return render_template("productHomePage/index.html", products = products,product_carts= product_carts)
     else:
         return redirect(url_for('user_login'))
     

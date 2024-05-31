@@ -151,7 +151,14 @@ class Products:
             return False, f"error: {e}"
     # ... display products carts table the with the user_id
     def display_product_cart(self,user_id):
-        sql = "SELECT * FROM product_carts WHERE user_id = %s"
+        sql = """
+
+          select products.Product_name,products.Product_price,
+            products.Product_img_1
+			from products join  product_carts
+            on product_carts.product_id  = products.Product_id
+            where product_carts.user_id = %s;
+        """
         try:
             self.cursor.execute(sql, (user_id,))
             product_cart = self.cursor.fetchall()
