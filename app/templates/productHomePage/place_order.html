@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  
+    <script src="https://cdn.tailwindcss.com"></script>
+ 
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+    width: 8px; /* Set width of the scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #4F46E5; /* Set color of the scrollbar thumb */
+    border-radius: 4px; /* Set border radius of the thumb */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #E5E7EB; /* Set color of the scrollbar track */
+}
+
+    </style>
+</head>
+<body>
+    
+  <!-- billign adress waaye Modal -->
+    <div class="  flex flex-col md:flex md:flex-row">
+        <div class="flex flex-col  p-8 md:w-[50%] lg:w-[40%]">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Billing Details</h2>
+                <button class="close_modal text-xl">&times;</button>
+            </div>
+            <form id="billing-form" class="flex-grow mb-4">
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" id="name" name="name" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="email" name="email" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="mb-4">
+                    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                    <input type="text" id="address" name="address" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="mb-4">
+                    <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                    <input type="text" id="city" name="city" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+            </form>
+           
+           
+        </div>
+
+
+
+        <!-- ....products -->
+
+        <div class="">
+            <div class="cart_items max-h-[400px] overflow-y-auto custom-scrollbar">
+               
+                {% for product_cart in product_carts %}
+                <div class="flex flex-col md:flex md:flex-row md:items-center gap-x-10 px-4 border-b-2 border-gray-200 my-2 cart_item" data-id="{{ product_cart[0] }}" data-price="{{ product_cart[2] }}" data-product-id="{{ product_cart[0] }}">
+                    <div>
+                        <img src="/static/product_image/{{ product_cart[3] }}" alt="{{ product_cart[2] }}" class="w-[150px] h-[150px] rounded md:w-[100px] md:h-[100px] md:mt-10">
+                    </div>
+                    <!-- ... this the prodouct name -->
+                   
+                    <div>
+                        <h3>{{ product_cart[1] }}</h3>
+                        <h2>id:{{ product_cart[0] }} </h2>
+                    </div>
+                    <div class="py-2">
+                        <h3 class="product-price">{{ product_cart[2] }}</h3>
+                    </div>
+                    <div>
+                        <div class="flex justify-around">
+                            <button class="bg-black text-white w-[40px] h-[40px] rounded-full decrement">-</button>
+                            <!-- ... product qty -->
+                            <input type="text" value="{{product_cart[4]}}" readonly class="text-center outline-none quantity">
+                            <button class="bg-black text-white w-[40px] h-[40px] rounded-full increment">+</button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between my-2 md:flex md:flex-col">
+                        <h3 class="font-bold">Total</h3>
+                        <h3 class="item-total">{{ product_cart[2] }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="flex justify-around mt-4">
+                <h1 class="text-[30px]  font-bold">Place Orders</h1>
+                <button type="submit" class="bg-black text-white px-4 py-2 rounded">Submit</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

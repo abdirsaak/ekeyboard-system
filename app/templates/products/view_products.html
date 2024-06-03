@@ -39,7 +39,7 @@
     </header>
            
 
-    <div class="">
+    <div class="flex justify-center">
           <!-- ........... message flash -->
           {% with messages = get_flashed_messages() %} {% if messages %}
           <div id="flash-message" class="flex justify-center items-center w-[270px] h-[50px] bg-red-500 text-white rounded-md">
@@ -59,12 +59,13 @@
                 <h1 class="font-bold text-gray-800 mt-[50px]">View Products</h1>
             </div>
             <div class="bg-white rounded-lg p-4 mt-5">
-                <table class="text-left mt-[30px]">
+                <table class="text-left mt-[30px] w-[1000px]">
                     <thead>
                         <tr>
                             <th class="p-2">Id</th>
                             <th class="p-2">Name</th>
                             <th class="p-2">Price</th>
+                            <th class="p-2">Sellign price</th>
                             <th class="p-2">Img-1</th>
                             <th class="p-2">Img-2</th>
                             <th class="p-2">Description-1</th>
@@ -80,16 +81,17 @@
                             <td class="p-2">{{ product[0] }}</td>
                             <td class="p-2">{{ product[1] }}</td>
                             <td class="p-2">${{ product[2] }}</td>
+                            <td class="p-2">${{ product[3] }}</td>
                             <td class="p-2">
-                                <img src="{{ url_for('static', filename='product_image/' + product[3]) }}" alt="Product Image 1" class="w-12 h-12 rounded-full">
+                                <img src="{{ url_for('static', filename='product_image/' + product[4]) }}" alt="Product Image 1" class="w-12 h-12 rounded-full">
                             </td>
                             <td class="p-2">
-                                <img src="{{ url_for('static', filename='product_image/' + product[4]) }}" alt="Product Image 2" class="w-12 h-12 rounded-full">
+                                <img src="{{ url_for('static', filename='product_image/' + product[5]) }}" alt="Product Image 2" class="w-12 h-12 rounded-full">
                             </td>
-                            <td class="p-2">{{ product[5] }}</td>
                             <td class="p-2">{{ product[6] }}</td>
                             <td class="p-2">{{ product[7] }}</td>
                             <td class="p-2">{{ product[8] }}</td>
+                            <td class="p-2">{{ product[9] }}</td>
                             <td class="p-2 flex gap-x-4">
                                 <span class="update_product_btn">
                                     <button type="button" onclick='showUpdateModal({{ product | tojson }})' class="bg-blue-500 text-white px-2 py-1 rounded"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
@@ -124,7 +126,11 @@
                         </div>
                         <div class="productPrice">
                             <h2>Product Price</h2>
-                            <input name="product_price" id="updateProductPrice" class="border-2 border-gray-200 outline-none w-[300px] h-[40px] my-2" type="text">
+                            <input name="product_price" id="updateProductPrice" class="border-2 border-gray-200 outline-none w-[150px] h-[40px] my-2" type="text">
+                        </div>
+                        <div class="productPrice">
+                            <h2>Selling Price</h2>
+                            <input name="selling_price"  class="border-2 border-gray-200 outline-none w-[150px] h-[40px] my-2"  type="text" id="update_product_selling">
                         </div>
                     </div>
                     <div class="productDescription md:flex gap-x-4">

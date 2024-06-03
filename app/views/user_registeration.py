@@ -157,37 +157,71 @@ def user_logout():
 
     else:
         return redirect(url_for("user_login"))
-
     
-@app.route("/E-keyboard/homePage")
+
+@app.route("/E-keyboard/homePage", methods=["GET", "POST"])
 def home_page():
     if session.get('user_email'):
-        
-        connection_status,_, products_instance= check_connection()
-        print(f"user session: {session.get('user_email')}")
-        products = products_instance.dispay_product_info()
-        user_id = session.get("user_id")
-        user_email = session.get("user_email")
-        print(f"user_id: {user_id}  user_email: {user_email}")
+        message = ""
+        connection_status, _, products_instance = check_connection()
+        if request.method == "GET":
+            # Get products and product carts
+            products = products_instance.dispay_product_info()
+            user_id = session.get("user_id")
+            count_product_carts = products_instance.count_product_carts(user_id)
+            product_carts = products_instance.display_product_cart(user_id)
 
-        # product_json = []
-        # # product to json
-        # for product in products:
-        #     product_json.append({
-        #         "product_name": product[1],
-        #         "product_price": product[2],
-        #         "image_1": product[3],
-        #         "image_2": product[4],
-        #         "description_1": product[5],
-        #         "description_2": product[6],
-        #         "category_name": product[7]
-        #     })
-        product_carts = products_instance.display_product_cart(user_id)
-        print(f"products carts view: {product_carts}")
+            
+            return render_template("productHomePage/index.html", products=products, product_carts=product_carts,count_product_carts = count_product_carts)
+        elif request.method == "POST":
+            user_id = session.get("user_id")
+            product_quantities = request.json
+            print(f"product_quantity: {product_quantities}")
+            for product_id, quantity in product_quantities.items():
+                quantity = int(quantity)
+                print(f"product_id: {product_id}, quanity: {quantity}")
+                invenotry_quantity = products_instance.display_product_inventory(product_id)
+                print(f"value of inventory quantity views: {invenotry_quantity}, quantity: {quantity}")
+                
+                # if isinstance(inventory_quantity, tuple):
+                #     inventory_quantity = inventory_quantity[0]
+                
+                if invenotry_quantity >= quantity:
+                    print("wan ku jiraa")
+                    print(f"inventory_quantity views: {invenotry_quantity}")
+                    update_product_cart = products_instance.update_product_cart(quantity, user_id, product_id)
+                    print(f"updated quantity in product_carts: {update_product_cart}")
+                    return redirect(url_for('place_order'))
 
-        return render_template("productHomePage/index.html", products = products,product_carts= product_carts)
+                else:
+                    print("walal ma heyno waxaasi saas u badan")
+                    message = "walal ma heyno waxaasi saas u badan"
+                    return render_template("productHomePage/index.html", message = message)
+            return redirect(url_for('home_page'))
+            # return redirect(url_for('place_order'))
     else:
         return redirect(url_for('user_login'))
+
+
+
+@app.route("/E-keyboard/place-order", methods=["GET", "POST"])
+def place_order():
+    if session.get('user_email'):
+        connection_status, _, products_instance = check_connection()
+        if request.method == "GET":  
+            user_id = session.get("user_id")
+            product_carts = products_instance.display_product_cart(user_id)
+            print(f"all product in place order: {[product_carts]}")
+            return render_template("productHomePage/place_order.html",product_carts = product_carts)
+           
+        elif request.method == "POST":
+            # Logic to place the order
+            return redirect(url_for('order_confirmation'))
+    else:
+        return redirect(url_for('user_login'))
+
+
+
     
 @app.route('/product/<int:product_id>', methods=["GET", "POST"])
 def product_detail(product_id):
@@ -214,6 +248,7 @@ def product_detail(product_id):
         # Retrieve form data
         quantity = request.form.get('quantity')
         user_id = session.get("user_id")
+        quantity = int(quantity)
 
        
 
@@ -224,6 +259,7 @@ def product_detail(product_id):
 
             # ...chech if the product already in the cart
             product_in_cart = products_instance.get_product_cart(user_id, product_id)
+            invenotry_quantity = products_instance.display_product_inventory(product_id)
             if product_in_cart:
                 flash('mar hore ayad gelisay cart-ga')
                 return render_template('productHomePage/product_description.html', product=product,  product_id=product_id)
@@ -231,8 +267,14 @@ def product_detail(product_id):
             else:
 
                 if product is not None:
+                    print(f"value quantity detail")
                     # Attempt to add product to cart
-                    insert_cart = products_instance.product_cart(user_id, product_id, quantity)
+                    if invenotry_quantity >= quantity:
+                        pass
+                        insert_cart = products_instance.product_cart(user_id, product_id, quantity)
+                    else:
+                        flash("ma heyno hadigaasi macaamiil")
+                        return redirect(url_for("product_detail"))
                     
                     # Check if product was successfully added to cart
                     if insert_cart:

@@ -57,11 +57,11 @@ class Products:
     
 
 
-    def create_product(self,Product_name,Product_price,Product_img_1,Product_img_2,Product_descrpt_1,Product_descrpt_2,category_name,inventory_quantity):
-        sql = "INSERT INTO products(Product_name,Product_price,Product_img_1,Product_img_2,Product_descrpt_1,Product_descrpt_2,category_name,inventory_quantity) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+    def create_product(self,Product_name,Product_price,selling_price,Product_img_1,Product_img_2,Product_descrpt_1,Product_descrpt_2,category_name,inventory_quantity):
+        sql = "INSERT INTO products(Product_name,Product_price,selling_price,Product_img_1,Product_img_2,Product_descrpt_1,Product_descrpt_2,category_name,inventory_quantity) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
         try:
-            self.cursor.execute(sql, (Product_name,Product_price,Product_img_1,Product_img_2,Product_descrpt_1,Product_descrpt_2,category_name,inventory_quantity,))
+            self.cursor.execute(sql, (Product_name,Product_price,selling_price,Product_img_1,Product_img_2,Product_descrpt_1,Product_descrpt_2,category_name,inventory_quantity,))
             self.connection.commit()
             print("si sax eh aya roo xareeyey product")
             return True, "si sax ayd u xareysay"
@@ -97,10 +97,10 @@ class Products:
             return False, f"error while displaying product info: {e}"
     
     # update_products
-    def update_products(self,Product_name,Product_price,Product_img_1,Product_img_2,Product_descrpt_1,Product_descrpt_2,category_name,inventory_quantity,Product_id):
-        sql = "UPDATE products SET Product_name = %s,Product_price = %s,Product_img_1 = %s,Product_img_2 = %s,Product_descrpt_1 = %s,Product_descrpt_2 = %s,category_name = %s,inventory_quantity = %s WHERE Product_id = %s"
+    def update_products(self,Product_name,Product_price,selling_price,Product_img_1,Product_img_2,Product_descrpt_1,Product_descrpt_2,category_name,inventory_quantity,Product_id):
+        sql = "UPDATE products SET Product_name = %s,Product_price = %s,selling_price = %s,Product_img_1 = %s,Product_img_2 = %s,Product_descrpt_1 = %s,Product_descrpt_2 = %s,category_name = %s,inventory_quantity = %s WHERE Product_id = %s"
         try:
-            self.cursor.execute(sql, (Product_name,Product_price,Product_img_1,Product_img_2,Product_descrpt_1,Product_descrpt_2,category_name,inventory_quantity,Product_id,))
+            self.cursor.execute(sql, (Product_name,Product_price,selling_price,Product_img_1,Product_img_2,Product_descrpt_1,Product_descrpt_2,category_name,inventory_quantity,Product_id,))
             self.connection.commit()
             print("si sax eh aya loo update gareeyey product")
             return True, "si sax ayd u xareysay"
@@ -122,6 +122,20 @@ class Products:
         
         except Exception as e:
             print(f"error ayaa jiro, in la tirtiro product: {e}")
+            return False, f"error: {e}"
+    #  display porduct inventory
+    def display_product_inventory(self,product_id):
+        sql = "SELECT inventory_quantity from products where product_id = %s "
+        try:
+            self.cursor.execute(sql, (product_id,))
+            product_inventory = self.cursor.fetchall()
+            print(f"product_inventory db: {product_inventory[0][0]}")
+            if product_inventory:
+                return product_inventory[0][0]  # Return the actual quantity
+            else:
+                return 0    
+        except Exception as e:
+            print(f"error ayaa jiro, in la soo xa: {e}")
             return False, f"error: {e}"
         
 
@@ -153,8 +167,9 @@ class Products:
     def display_product_cart(self,user_id):
         sql = """
 
-          select products.Product_name,products.Product_price,
-            products.Product_img_1
+          select product_carts.product_id,  products.Product_name,products.     selling_price,
+            products.Product_img_1,
+            product_carts.qty
 			from products join  product_carts
             on product_carts.product_id  = products.Product_id
             where product_carts.user_id = %s;
@@ -162,13 +177,40 @@ class Products:
         try:
             self.cursor.execute(sql, (user_id,))
             product_cart = self.cursor.fetchall()
-            print(f"product_cart: {product_cart}")
+            # print(f"product_cart: {product_cart}")
             return product_cart
         except Exception as e:
             print(f"error ayaa jiro, in la soo xa: {e}")
             return False, f"error: {e}"
+    
+    # ....... update the qty in product_carts where user_id
+    def update_product_cart(self,qty,user_id,product_id):
+        sql = "UPDATE product_Carts SET qty = %s WHERE user_id = %s AND product_id = %s"
+        try:
+            self.cursor.execute(sql, (qty,user_id,product_id,))
+            self.connection.commit()
+            print("si sax eh aya loo update gareeyey product cart")
+            return True, "si sax ayd u xareysay"
+        
+        except Exception as e:
+            print(f"error ayaa jiro, in la update gareeyo product cart: {e}")
+            return False, f"error: {e}"
+# ...... soo bandhig dhamaan cartiga.
+    def count_product_carts(self, user_id):
+        sql = "SELECT COUNT(*) FROM product_Carts WHERE user_id = %s"
+        try:
+            self.cursor.execute(sql, (user_id,))
+            # No need to commit after a SELECT query
+            count_product_carts = self.cursor.fetchall()
+            print(f"dhamaan product count: {count_product_carts}")
+            return count_product_carts, "si sax ayd u xareysay"
+        except Exception as e:
+            print(f"error ayaa jiro, count all product_carts: {e}")
+            return False, f"error: {e}"
+        
 
 
+    
 
 
 

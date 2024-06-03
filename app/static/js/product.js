@@ -61,15 +61,16 @@ function showUpdateModal(product) {
   document.getElementById('updateProductId').value = product[0];
   document.getElementById('updateProductName').value = product[1];
   document.getElementById('updateProductPrice').value = product[2];
-  document.getElementById('updateProductDescription1').value = product[5];
-  document.getElementById('updateProductDescription2').value = product[6];
-  document.getElementById('updateProductCategory').value = product[7];
-  document.getElementById('updateProductInventory').value = product[8];
+  document.getElementById('update_product_selling').value = product[3];
+  document.getElementById('updateProductDescription1').value = product[6];
+  document.getElementById('updateProductDescription2').value = product[7];
+  document.getElementById('updateProductCategory').value = product[8];
+  document.getElementById('updateProductInventory').value = product[9];
   let product_id =   document.getElementById('updateProductId').value = product[0];
   console.log("product id", product_id)
   // Update the image previews
-  document.getElementById('preview1').src = `{{ url_for('static', filename='product_image/') }}${product[3]}`;
-  document.getElementById('preview2').src = `{{ url_for('static', filename='product_image/') }}${product[4]}`;
+  document.getElementById('preview1').src = `{{ url_for('static', filename='product_image/') }}${product[4]}`;
+  document.getElementById('preview2').src = `{{ url_for('static', filename='product_image/') }}${product[5]}`;
 
   document.getElementById('updateModal').classList.remove('hidden');
 }

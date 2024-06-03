@@ -164,6 +164,7 @@ def create_product():
                 product_description_2 = request.form.get('product_description_2')
                 category_name = request.form.get('product_category')
                 inventory_quantity = request.form.get('product_inventory')
+                selling_price = request.form.get('selling_price')
                 
 
                 # Input validation
@@ -204,22 +205,20 @@ def create_product():
                     print(f"image 1 name: {unique_filename1}, image name 2: {unique_filename2}")
                     # Only store the filenames in the database
                     if connection_status:
-                        view_category_name = products_instance.view_category_name(category_name)
-                        if not view_category_name:
-                            make_insertion = products_instance.create_product(
-                                product_name, product_price, unique_filename1, unique_filename2,
-                                product_description_1, product_description_2, category_name, inventory_quantity
-                            )
-                            print(f"waa la xareeyey produc views: {make_insertion}")
-                            if make_insertion:
-                                flash("Product created successfully")
-                                return redirect(url_for("create_product"))
-                            else:
-                                flash("Error while creating product")
-                                return redirect(url_for("create_product"))
-                        else:
-                            flash("Category name already exists")
+                       
+                      
+                        make_insertion = products_instance.create_product(
+                            product_name, product_price, selling_price,unique_filename1, unique_filename2,
+                            product_description_1, product_description_2, category_name, inventory_quantity
+                        )
+                        print(f"waa la xareeyey produc views: {make_insertion}")
+                        if make_insertion:
+                            flash("Product created successfully")
                             return redirect(url_for("create_product"))
+                        else:
+                            flash("Error while creating product")
+                            return redirect(url_for("create_product"))
+                       
             except Exception as e:
                 return f"Error while creating product: {e}"
     else:
@@ -266,6 +265,7 @@ def update_product():
             product_description_2 = request.form.get('product_description_2')
             category_name = request.form.get('product_category')
             inventory_quantity = request.form.get('product_inventory')
+            selling_price = request.form.get('selling_price')
 
             # Input validation
             if not product_name:
@@ -273,6 +273,9 @@ def update_product():
                 return redirect(url_for("update_product"))
             if not product_price:
                 flash("Please enter the product price")
+                return redirect(url_for("update_product"))
+            if not selling_price:
+                flash("Please enter the selling price")
                 return redirect(url_for("update_product"))
             if not product_image_1 or not product_image_2:
                 flash("Please upload both product images")
@@ -306,22 +309,20 @@ def update_product():
                 print(f"image 1 name: {unique_filename1}, image name 2: {unique_filename2}")
                 # Only store the filenames in the database
                 if connection_status:
-                    view_category_name = products_instance.view_category_name(category_name)
-                    if not view_category_name:
-                        make_insertion = products_instance.update_products(
-                            product_name, product_price, unique_filename1, unique_filename2,
-                            product_description_1, product_description_2, category_name, inventory_quantity,product_id
-                        )
-                        print(f"waa la xareeyey produc views: {make_insertion}")
-                        if make_insertion:
-                            flash("Product updated successfully")
-                            return redirect(url_for("view_products"))
-                        else:
-                            flash("Error while creating product")
-                            return redirect(url_for("view_products"))
-                    else:
-                        flash("Category name already exists")
+                   
+                   
+                    make_insertion = products_instance.update_products(
+                        product_name, product_price,selling_price, unique_filename1, unique_filename2,
+                        product_description_1, product_description_2, category_name, inventory_quantity,product_id
+                    )
+                    print(f"waa la xareeyey produc views: {make_insertion}")
+                    if make_insertion:
+                        flash("Product updated successfully")
                         return redirect(url_for("view_products"))
+                    else:
+                        flash("Error while creating product")
+                        return redirect(url_for("view_products"))
+                   
       
     else:
         return redirect(url_for('admin_login'))

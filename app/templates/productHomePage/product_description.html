@@ -34,15 +34,16 @@
         <div class="max-w-3xl mx-auto bg-white h-[100vh] md:h-[100vh] rounded-lg shadow-md">
             <!-- Product details -->
             <div class="pl-6 md:flex md:flex-row md:items-center">
-                <div>
-                    <img src="/static/product_image/{{ product[3] }}" alt="{{ product[1] }}" class="w-[400px] h-[300px] rounded md:w-[300px] md:h-[300px] md:mt-10">
+                <div class="flex flex-col ">
+                    <img src="/static/product_image/{{ product[4] }}" alt="{{ product[1] }}" class="w-[200px] h-[300px] rounded md:w-[150px] md:h-[150px] md:mt-10">
+                    <img src="/static/product_image/{{ product[5] }}" alt="{{ product[1] }}" class="w-[200px] h-[300px] rounded md:w-[150px] md:h-[150px] md:mt-0">
                 </div>
                 <div class="md:pl-20">
                     <h1 class="text-2xl font-bold mt-4">{{ product[1] }}</h1>
-                    <p class="mt-4">{{ product[5] }}</p>
-                    <p>{{ product[6] }}</p>
+                    <p class="mt-4">{{ product[6] }}</p>
+                    <p>{{ product[7] }}</p>
                 </div>
-                <p class="text-xl text-red-500 mt-2">{{ product[2] }}</p>
+                <p class="text-xl text-red-500 mt-2">{{ product[3] }}</p>
             </div>
 
             <!-- Success message -->
@@ -54,10 +55,10 @@
 
             <!-- Quantity controls -->
             <form id="cart-form" action="{{ url_for('product_detail', product_id=product_id) }}"  method="post">
-                <div class="md:flex md:flex-col md:items-center md:mt-20">
+                <div class="md:flex md:flex-col md:items-center md:mt-2">
                     <div class="bg-gray-100 text-white flex justify-around items-center h-[50px] w-[450px] ml-6 mt-8 md:mt-0">
                         <button type="button" id="decrease-quantity" class="text-rose-600 text-[50px] font-bold">-</button>
-                        <input type="text" id="quantity" name="quantity" class="text-black" value="0" readonly>
+                        <input type="text" id="quantity" name="quantity" class="text-black" value="1" readonly>
                         <button type="button" id="increase-quantity" class="text-rose-600 text-[40px] font-bold">+</button>
                     </div>
                     <div>

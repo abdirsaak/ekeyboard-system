@@ -7,6 +7,25 @@
     <title>E-keyboard website</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 12px;
+        }
+    
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: blue;
+            border-radius: 10px;
+        }
+    
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+    
+        .custom-scrollbar {
+            scrollbar-color: blue #f1f1f1;
+            scrollbar-width: thin;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,77 +56,103 @@
 
         </div>
 <!-- ............... cardt -->
-<div class="hidden md:block md:flex md:flex-row">
-    <h3 class="pt-2 bg-black w-[150px] text-white rounded-md flex justify-center">History</h3>
+<div class="flex flex-row justify-end mt-6 ml-52 md:ml-0 lg:ml-0 md:block md:flex md:flex-row">
+    <h3 class="pt-2 text-black lg:bg-black lg:w-[150px] lg:text-white rounded-md flex justify-center">History</h3>
     <!-- .........cart icon -->
-    <div class="flex px-4 items-center cursor-pointer cart_btn"> 
-        <span class="mr-4 font-bold text-white">Cart</span>
-        <div class="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white">0</div> 
+    <div class="flex px-4 items-center cursor-pointer cart_btn "> 
+        <span class="mr-4 font-bold text-black lg:text-white">Cart</span>
+        <div class="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white">{{ count_product_carts[0][0][0] if count_product_carts else 0 }}</div> 
     </div>
 </div>
 </header>
-
 <!-- ................. section cart -->
-<section>
-    <div class=" ">
 
-     <!-- ... create product list for productImage,productName,productPric -->
 
+<section class="">
+    <div class="">
+
+        <!-- ... create product list for productImage,productName,productPrice -->
+
+        <!-- .........product cart list below -->
+        <div class="cart_container hidden mt-20 lg:mt-0 bg-white w-[380px] md:w-[690px] h-auto absolute top-[100px] right-[10px] lg:right-[20px] z-50 shadow-lg">
+            <div class="">
+                {% with messages = get_flashed_messages() %} {% if messages %}
+                <div id="flash-message" class="flex justify-center items-center w-[200px] h-[50px] bg-red-500 text-white rounded-md">
         
-       <!-- .........product cart list below -->
-       <div class="cart_container hidden mt-20 lg:mt-0 bg-white w-[380px] md:w-[690px] h-auto absolute top-[100px] right-[10px] lg:right-[20px] z-50 shadow-lg">
-        <div class="flex justify-between p-2 border-b">
-            <h1 class="text-[18px] font-semibold">Cart</h1>
-            <button class="close_cart">X</button>
-        </div>
-        <div class="flex justify-around text-black font-bold border-b-2 border-gray-300">
-            <h3>Product</h3>
-            <h3></h3>
-            <h3></h3>
-            <h3>Price</h3>
-            <h3>Total</h3>
-        </div>
-        {% for product_cart in product_carts %}
-        <div class="flex flex-col md:flex md:flex-row md:items-center gap-x-10 px-4 border-b-2 border-gray-200 my-2" data-id="{{ product_cart[0] }}" data-price="{{ product_cart[1] }}">
-            <div>
-                <img src="/static/product_image/{{ product_cart[2] }}" alt="{{ product_cart[2] }}" class="w-[150px] h-[150px] rounded md:w-[100px] md:h-[100px] md:mt-10">
-            </div>
-            <div>
-                <h3>{{ product_cart[0] }}</h3>
-            </div>
-            <div class="py-2">
-                <h3 class="product-price">{{ product_cart[1] }}</h3>
-            </div>
-            <div>
-                <div class="flex justify-around">
-                    <button class="bg-black text-white w-[40px] h-[40px] rounded-full decrement">-</button>
-                    <input type="text" value="1" readonly class="text-center outline-none quantity">
-                    <button class="bg-black text-white w-[40px] h-[40px] rounded-full increment">+</button>
+                  <ul>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                  </ul>
                 </div>
+                {% endif %} {% endwith %}
             </div>
-            <div class="flex justify-between my-2 md:flex md:flex-col">
-                <h3 class="font-bold">Total</h3>
-                <h3 class="item-total">{{ product_cart[1] }}</h3>
+
+            <div class="flex justify-between p-2 border-b">
+                <h1 class="text-[18px] font-semibold">Cart</h1>
+                <button class="close_cart">X</button>
             </div>
-        </div>
-        {% endfor %}
-        <div class="cart_items">
-            <!-- Cart items will be rendered here -->
-        </div>
-        <div class="flex justify-between p-2 border-t">
-            <h1 class="text-[18px] font-semibold">Total</h1>
-            <h1 class="text-[18px] font-semibold total_price">0</h1>
-        </div>
-        <div class="flex justify-center p-2">
-            <button class="bg-black text-white px-4 py-2 rounded">Checkout</button>
+            <div class="flex justify-around text-black font-bold border-b-2 border-gray-300">
+                <h3>Product</h3>
+                <h3></h3>
+                <h3></h3>
+                <h3>Price</h3>
+                <h3>Total</h3>
+            </div>
+            <div class="cart_items max-h-[400px] overflow-y-auto custom-scrollbar">
+               
+                {% for product_cart in product_carts %}
+                <div class="flex flex-col md:flex md:flex-row md:items-center gap-x-10 px-4 border-b-2 border-gray-200 my-2 cart_item" data-id="{{ product_cart[0] }}" data-price="{{ product_cart[2] }}" data-product-id="{{ product_cart[0] }}">
+                    <div>
+                        <img src="/static/product_image/{{ product_cart[3] }}" alt="{{ product_cart[2] }}" class="w-[150px] h-[150px] rounded md:w-[100px] md:h-[100px] md:mt-10">
+                    </div>
+                    <!-- ... this the prodouct name -->
+                   
+                    <div>
+                        <h3>{{ product_cart[1] }}</h3>
+                    </div>
+                    <div class="py-2">
+                        <h3 class="product-price">{{ product_cart[2] }}</h3>
+                    </div>
+                    <div>
+                        <div class="flex justify-around">
+                            <button class="bg-black text-white w-[40px] h-[40px] rounded-full decrement">-</button>
+                            <!-- ... product qty -->
+                            <input type="text" value="{{product_cart[4]}}" readonly class="text-center outline-none quantity">
+                            <button class="bg-black text-white w-[40px] h-[40px] rounded-full increment">+</button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between my-2 md:flex md:flex-col">
+                        <h3 class="font-bold">Total</h3>
+                        <h3 class="item-total">{{ product_cart[2] }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="flex justify-between p-2 border-t">
+                <h1 class="text-[18px] font-semibold">Total</h1>
+                <h1 class="text-[18px] font-semibold total_price">0</h1>
+            </div>
+            <div class="flex justify-center p-2">
+                <!-- <button class="bg-black text-white px-4 py-2 rounded checkout-button">Checkout</button> -->
+               
+                    <!-- Hidden inputs will be dynamically added here -->
+                    <!-- <button type="submit" class="bg-black text-white px-4 py-2 rounded checkout-button">Checkout</button> -->
+                    <button type="button" class="bg-black text-white px-4 py-2 rounded  checkout-button">Checkout</button>
+
+             
+            </div>
+
         </div>
     </div>
-    
-    
-    </div>
+
+  
 </section>
 
+
 <!-- .......end section cart -->
+
+<!-- ...... waa categories iyo products -->
     <main>
         <!-- categories -->
         <div class="mt-[20px]">
@@ -118,11 +163,7 @@
                         <span class="md:hidden lg:hidden"><i class="fa fa-bars"></i></span> Categories
                     </h1>
                 </div>
-                <div class="md:hidden lg:hidden flex">
-                    <h3 class="pt-2  text-black rounded-md flex justify-center">History</h3>
-                    <h1 class="px-4 flex"><span class=" font-bold text-black pt-2">Cart</span> <div class="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white ml-4">0</div>
-                    </h1>
-                </div>
+            
             </div>
             <!-- ...................... categories -->
             <div class="">
@@ -150,8 +191,8 @@
             {% for product in products %}
             <div class="w-[22%] m-2 p-2 bg-white rounded flex flex-col items-center product-card" data-product-id="{{ product[0] }}" style="display: none;">
                 <img src="{{ url_for('static', filename='product_image/' ~ product[4]) }}" alt="" class="w-[150px] h-[150px] rounded-full">
-                <h1 class="text-[14px] font-sans font-semibold mt-2 w-full">{{ product[1] }}</h1>
-                <p class="text-left w-full">{{ product[5] }}</p>
+                <h1 class="text-[14px] font-sans font-semibold mt-2 w-full">{{ product[3] }}</h1>
+                <p class="text-left w-full">{{ product[6] }}</p>
                 <h2 class="text-red-500 text-[12px] text-left py-2 w-full font-sans font-semibold">{{ product[2] }}</h2>
             </div>
             {% endfor %}
@@ -274,15 +315,54 @@
 
         </div>
     </footer>
+    
+
 </body>
+
+
+<script>
+  
+  document.querySelector('.checkout-button').addEventListener('click', () => {
+    const productQuantities = {};
+    document.querySelectorAll('.cart_items .cart_item').forEach(item => {
+        const productId = item.dataset.productId;
+        const quantity = item.querySelector('.quantity').value;
+        productQuantities[productId] = quantity;
+    });
+
+    fetch('/E-keyboard/homePage', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productQuantities),
+    })
+    .then(response => {
+        if (response.ok) {
+            // Handle successful checkout
+            console.log('Checkout successful');
+            window.location.href = '/E-keyboard/place-order';
+        } else {
+            // Handle checkout failure
+            console.error('Checkout failed');
+        }
+    })
+    .catch(error => {
+        console.error('Error during checkout:', error);
+    });
+});
 
 
 
 </script>
 
+
+
 <script src="{{ url_for('static', filename='/js/categories.js') }}"></script>
 <script src="{{ url_for('static', filename='/js/product_view.js') }}"></script>
 <script src="{{ url_for('static', filename='/js/product_cart.js') }}"></script>
+
+
     
 
 </html>
